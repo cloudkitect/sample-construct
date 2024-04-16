@@ -7,6 +7,7 @@ const project = new monorepo.MonorepoTsProject({
   name: "sample-construct",
   packageManager: javascript.NodePackageManager.PNPM,
   projenrcTs: true,
+  release: true,
 });
 
 const components = new AwsCdkConstructLibrary({

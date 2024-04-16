@@ -30,6 +30,8 @@ jspm_packages/
 .yarn-integrity
 .cache
 .tmp
+/dist/changelog.md
+/dist/version.txt
 !/.prettierignore
 !/.prettierrc.json
 !/.npmrc
