@@ -12,8 +12,12 @@ const project = new monorepo.MonorepoTsProject({
     mergify: false
   },
   pnpmVersion: "8",
-
+  workspaceConfig: {
+    linkLocalWorkspaceBins: true,
+  },
 });
+
+
 
 const components = new AwsCdkConstructLibrary({
   authorAddress: "support@cloudkitect.com",
@@ -37,6 +41,11 @@ const components = new AwsCdkConstructLibrary({
   pnpmVersion: "8",
 });
 components.synth()
+
+
+const releaseYaml = project.tryFindObjectFile('.github/workflows/release_cloudkitect-sample-construct.yml');
+releaseYaml!.addOverride('jobs.release_npm.steps.5.run', 'cd .repo && pnpm i --no-frozen-lockfile')
+
 
 const exclusions = ['.DS_Store', '.idea', '*.iml']
 project.gitignore.exclude(...exclusions)
