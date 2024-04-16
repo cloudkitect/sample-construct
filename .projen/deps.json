@@ -64,6 +64,11 @@
       "type": "build"
     },
     {
+      "name": "standard-version",
+      "version": "^9",
+      "type": "build"
+    },
+    {
       "name": "syncpack",
       "version": "^12",
       "type": "build"
