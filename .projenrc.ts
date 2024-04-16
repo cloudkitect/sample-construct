@@ -7,13 +7,6 @@ const project = new monorepo.MonorepoTsProject({
   name: "sample-construct",
   packageManager: javascript.NodePackageManager.PNPM,
   projenrcTs: true,
-  buildWorkflow: true,
-  release: true,
-  github: true,
-  githubOptions: {
-    mergify: false
-  },
-  pnpmVersion: "8",
 });
 
 const components = new AwsCdkConstructLibrary({
@@ -38,7 +31,6 @@ const components = new AwsCdkConstructLibrary({
   pnpmVersion: "8",
 });
 components.synth()
-
 
 const exclusions = ['.DS_Store', '.idea', '*.iml']
 project.gitignore.exclude(...exclusions)
