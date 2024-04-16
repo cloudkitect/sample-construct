@@ -12,11 +12,13 @@
     "post-compile": "pnpm exec projen post-compile",
     "post-upgrade": "pnpm exec projen post-upgrade",
     "pre-compile": "pnpm exec projen pre-compile",
+    "prepare": "pnpm exec projen prepare",
     "run-many": "pnpm exec projen run-many",
     "test": "pnpm exec projen test",
     "upgrade": "pnpm exec projen upgrade",
     "upgrade-deps": "pnpm exec projen upgrade-deps",
     "watch": "pnpm exec projen watch",
+    "workspace:bin:link": "pnpm exec projen workspace:bin:link",
     "install:ci": "pnpm exec projen install:ci",
     "synth-workspace": "pnpm exec projen"
   },

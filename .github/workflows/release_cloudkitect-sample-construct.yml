@@ -118,7 +118,7 @@ jobs:
       - name: Prepare Repository
         run: mv dist .repo
       - name: Install Dependencies
-        run: cd .repo && pnpm i --frozen-lockfile
+        run: cd .repo && pnpm i --no-frozen-lockfile
       - name: Create js artifact
         run: cd .repo && npx projen package:js
       - name: Collect js Artifact
