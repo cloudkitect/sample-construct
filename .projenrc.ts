@@ -8,6 +8,12 @@ const project = new monorepo.MonorepoTsProject({
   packageManager: javascript.NodePackageManager.PNPM,
   projenrcTs: true,
   release: true,
+  github: true,
+  githubOptions: {
+    mergify: false
+  },
+  pnpmVersion: "8",
+
 });
 
 const components = new AwsCdkConstructLibrary({
