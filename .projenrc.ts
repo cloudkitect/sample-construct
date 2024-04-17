@@ -1,6 +1,7 @@
-import { javascript } from "projen";
-import { monorepo } from "@aws/pdk";
+import {javascript} from "projen";
+import {monorepo} from "@aws/pdk";
 import {AwsCdkConstructLibrary} from "projen/lib/awscdk";
+import {NpmAccess} from "projen/lib/javascript";
 
 const project = new monorepo.MonorepoTsProject({
   devDeps: ["@aws/pdk"],
@@ -39,6 +40,8 @@ const components = new AwsCdkConstructLibrary({
     mergify: false,
   },
   pnpmVersion: "8",
+  npmAccess: NpmAccess.PUBLIC,
+  npmProvenance: false,
 });
 components.synth()
 
@@ -63,6 +66,8 @@ const patterns = new AwsCdkConstructLibrary({
   github: true,
   release: true,
   buildWorkflow: true,
+  npmAccess: NpmAccess.PUBLIC,
+  npmProvenance: false,
   githubOptions: {
     mergify: false,
   },
