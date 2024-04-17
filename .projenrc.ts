@@ -1,4 +1,4 @@
-import {javascript} from "projen";
+import {javascript, ReleasableCommits} from "projen";
 import {monorepo} from "@aws/pdk";
 import {AwsCdkConstructLibrary} from "projen/lib/awscdk";
 import {NpmAccess} from "projen/lib/javascript";
@@ -17,8 +17,6 @@ const project = new monorepo.MonorepoTsProject({
     linkLocalWorkspaceBins: true,
   },
 });
-
-
 
 const components = new AwsCdkConstructLibrary({
   authorAddress: "support@cloudkitect.com",
@@ -39,6 +37,8 @@ const components = new AwsCdkConstructLibrary({
   githubOptions: {
     mergify: false,
   },
+  majorVersion: 1,
+  releasableCommits: ReleasableCommits.featuresAndFixes(),
   pnpmVersion: "8",
   npmAccess: NpmAccess.PUBLIC,
   npmProvenance: false,
@@ -68,6 +68,8 @@ const patterns = new AwsCdkConstructLibrary({
   buildWorkflow: true,
   npmAccess: NpmAccess.PUBLIC,
   npmProvenance: false,
+  majorVersion: 1,
+  releasableCommits: ReleasableCommits.featuresAndFixes(),
   githubOptions: {
     mergify: false,
   },
