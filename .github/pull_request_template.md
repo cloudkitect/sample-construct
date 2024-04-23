@@ -1,23 +1,23 @@
-* **Please check if the PR fulfills these requirements**
-- [ ] The commit message describes your change
-- [ ] Tests for the changes have been added if possible (for bug fixes / features)
-- [ ] Docs have been added / updated (for bug fixes / features)
+## What is this PR for?
 
+## What type of PR is it?
 
-* **What kind of change does this PR introduce?** (Bug fix, feature, docs update, ...)
+- [ ] Bug fix
+- [ ] Feature
+- [ ] Documentation update
+- [ ] Other, please describe:
 
+## What is the new behavior?
 
+## Does this PR introduce a breaking change?
 
-* **What is the current behavior?** (You can also link to an open issue here)
+- [ ] Yes
+- [ ] No
 
+## Other information
 
+## Checklist:
 
-* **What is the new behavior (if this is a feature change)?**
-
-
-
-* **Does this PR introduce a breaking change?** (What changes might users need to make in their setup due to this PR?)
-
-
-
-* **Other information**:
+- [ ] Code review
+- [ ] Tests
+- [ ] Documentation

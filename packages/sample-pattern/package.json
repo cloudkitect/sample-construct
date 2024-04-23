@@ -1,5 +1,6 @@
 {
   "name": "@cloudkitect/sample-pattern",
+  "description": "Sample patterns",
   "repository": {
     "type": "git",
     "url": "https://github.com/cloudkitect/sample-construct"
@@ -26,8 +27,8 @@
     "watch": "npx projen watch"
   },
   "author": {
-    "name": "CloudKitect Inc",
-    "email": "support@cloudkitect.com",
+    "name": "CloudKitect",
+    "email": "support@example.com",
     "organization": true
   },
   "devDependencies": {
@@ -35,7 +36,7 @@
     "@types/node": "^18",
     "@typescript-eslint/eslint-plugin": "^6",
     "@typescript-eslint/parser": "^6",
-    "aws-cdk-lib": "2.137.0",
+    "aws-cdk-lib": "2.138.0",
     "constructs": "10.3.0",
     "eslint": "^8",
     "eslint-import-resolver-typescript": "^3.6.1",
@@ -53,16 +54,16 @@
     "typescript": "^5.4.5"
   },
   "peerDependencies": {
-    "aws-cdk-lib": "^2.137.0",
+    "aws-cdk-lib": "^2.138.0",
     "constructs": "^10.3.0"
   },
   "keywords": [
     "cdk"
   ],
   "main": "lib/index.js",
-  "license": "Apache-2.0",
+  "license": "UNLICENSED",
   "publishConfig": {
-    "access": "public"
+    "registry": "https://cloudkitect-053336355397.d.codeartifact.us-east-1.amazonaws.com/npm/cloudkitect-artifacts"
   },
   "version": "0.0.0",
   "jest": {
