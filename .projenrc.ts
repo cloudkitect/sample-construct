@@ -1,7 +1,17 @@
-import {javascript, ReleasableCommits} from "projen";
+import {javascript, ReleasableCommits, TextFile} from "projen";
 import {monorepo} from "@aws/pdk";
 import {AwsCdkConstructLibrary} from "projen/lib/awscdk";
 import {NpmAccess} from "projen/lib/javascript";
+
+const licenseConfig = {
+  licensed: false,
+  licenseOptions: {
+    copyrightOwner: 'CloudKitect Inc',
+    licenseText: 'CloudKitect All Rights Reserved',
+    disableDefaultLicenses: true,
+  }
+}
+
 
 const project = new monorepo.MonorepoTsProject({
   devDeps: ["@aws/pdk"],
@@ -12,47 +22,54 @@ const project = new monorepo.MonorepoTsProject({
   githubOptions: {
     mergify: false
   },
-  pnpmVersion: "8",
+  pnpmVersion: "9",
   workspaceConfig: {
     linkLocalWorkspaceBins: true,
   },
-  pullRequestTemplateContents: [`* **Please check if the PR fulfills these requirements**
-- [ ] The commit message describes your change
-- [ ] Tests for the changes have been added if possible (for bug fixes / features)
-- [ ] Docs have been added / updated (for bug fixes / features)
-
-
-* **What kind of change does this PR introduce?** (Bug fix, feature, docs update, ...)
-
-
-
-* **What is the current behavior?** (You can also link to an open issue here)
-
-
-
-* **What is the new behavior (if this is a feature change)?**
-
-
-
-* **Does this PR introduce a breaking change?** (What changes might users need to make in their setup due to this PR?)
-
-
-
-* **Other information**:`],
+  pullRequestTemplateContents: [
+    "## What is this PR for?",
+    "",
+    "## What type of PR is it?",
+    "",
+    "- [ ] Bug fix",
+    "- [ ] Feature",
+    "- [ ] Documentation update",
+    "- [ ] Other, please describe:",
+    "",
+    "## What is the new behavior?",
+    "",
+    "## Does this PR introduce a breaking change?",
+    "",
+    "- [ ] Yes",
+    "- [ ] No",
+    "",
+    "## Other information",
+    "",
+    "## Checklist:",
+    "",
+    "- [ ] Code review",
+    "- [ ] Tests",
+    "- [ ] Documentation",
+    "",
+  ],
+  ...licenseConfig
 });
 
-const components = new AwsCdkConstructLibrary({
-  authorAddress: "support@cloudkitect.com",
+// project.npmrc.addRegistry('https://cloudkitect-053336355397.d.codeartifact.us-east-1.amazonaws.com/npm/main/');
+// project.npmrc.addConfig('//cloudkitect-053336355397.d.codeartifact.us-east-1.amazonaws.com/npm/main/:_authToken', '${CODEARTIFACT_AUTH_TOKEN}');
+// project.npmrc.addConfig('//cloudkitect-053336355397.d.codeartifact.us-east-1.amazonaws.com/npm/main/:always-auth', 'true');
+
+
+const subProjectSettings = {
+  authorAddress: "support@example.com",
   parent: project,
   defaultReleaseBranch: 'main',
-  cdkVersion: '2.137.0',
+  cdkVersion: '2.138.0',
   constructsVersion: '10.3.0',
-  author: 'CloudKitect Inc',
+  author: 'CloudKitect',
   authorOrganization: true,
   repositoryUrl: 'https://github.com/cloudkitect/sample-construct',
   jsiiVersion: '~5.3.0',
-  name: `@cloudkitect/sample-construct`,
-  outdir: `packages/sample-construct`,
   packageManager: project.package.packageManager,
   github: true,
   release: true,
@@ -62,42 +79,40 @@ const components = new AwsCdkConstructLibrary({
   },
   majorVersion: 1,
   releasableCommits: ReleasableCommits.featuresAndFixes(),
-  pnpmVersion: "8",
-  npmAccess: NpmAccess.PUBLIC,
-  npmProvenance: false,
-});
-components.synth()
+  pnpmVersion: "9",
+  npmAccess: NpmAccess.RESTRICTED,
+  npmRegistryUrl: 'https://cloudkitect-053336355397.d.codeartifact.us-east-1.amazonaws.com/npm/cloudkitect-artifacts',
+  ...licenseConfig
+}
 
+const components = new AwsCdkConstructLibrary({
+  ...subProjectSettings,
+  description: "Sample constructs",
+  name: `@cloudkitect/sample-construct`,
+  outdir: `packages/sample-construct`,
+});
+
+const licenseText = 'CloudKitect. Commercial License, All Rights Reserved'
+new TextFile(components, 'LICENSE', {
+  lines: [licenseText]
+})
+
+components.synth()
 
 const releaseYaml = project.tryFindObjectFile('.github/workflows/release_cloudkitect-sample-construct.yml');
 releaseYaml!.addOverride('jobs.release_npm.steps.5.run', 'cd .repo && pnpm i --no-frozen-lockfile')
 
-
 const patterns = new AwsCdkConstructLibrary({
-  authorAddress: "support@cloudkitect.com",
-  parent: project,
-  defaultReleaseBranch: 'main',
-  cdkVersion: '2.137.0',
-  constructsVersion: '10.3.0',
-  author: 'CloudKitect Inc',
-  authorOrganization: true,
-  repositoryUrl: 'https://github.com/cloudkitect/sample-construct',
-  jsiiVersion: '~5.3.0',
+  ...subProjectSettings,
+  description: 'Sample patterns',
   name: `@cloudkitect/sample-pattern`,
   outdir: `packages/sample-pattern`,
-  packageManager: project.package.packageManager,
-  github: true,
-  release: true,
-  buildWorkflow: true,
-  npmAccess: NpmAccess.PUBLIC,
-  npmProvenance: false,
-  majorVersion: 1,
-  releasableCommits: ReleasableCommits.featuresAndFixes(),
-  githubOptions: {
-    mergify: false,
-  },
-  pnpmVersion: "8",
 });
+
+new TextFile(patterns, 'LICENSE', {
+  lines: [licenseText]
+})
+
 patterns.synth()
 
 const releaseYaml2 = project.tryFindObjectFile('.github/workflows/release_cloudkitect-sample-pattern.yml');
