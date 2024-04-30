@@ -126,7 +126,6 @@ jobs:
       - name: Release
         env:
           NPM_DIST_TAG: latest
-          NPM_REGISTRY: cloudkitect-053336355397.d.codeartifact.us-east-1.amazonaws.com/npm/cloudkitect-artifacts
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          NPM_REGISTRY: registry.npmjs.org
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npx -p publib@latest publib-npm
