@@ -1,7 +1,7 @@
 import {javascript, ReleasableCommits, TextFile} from "projen";
 import {monorepo} from "@aws/pdk";
 import {AwsCdkConstructLibrary} from "projen/lib/awscdk";
-import {NpmAccess} from "projen/lib/javascript";
+import {CodeArtifactAuthProvider} from "projen/lib/release/publisher";
 
 const licenseConfig = {
   licensed: false,
@@ -11,7 +11,6 @@ const licenseConfig = {
     disableDefaultLicenses: true,
   }
 }
-
 
 const project = new monorepo.MonorepoTsProject({
   devDeps: ["@aws/pdk"],
@@ -55,7 +54,7 @@ const project = new monorepo.MonorepoTsProject({
   ...licenseConfig
 });
 
-// project.npmrc.addRegistry('https://cloudkitect-053336355397.d.codeartifact.us-east-1.amazonaws.com/npm/main/');
+// project.npmrc.addRegistry('https://cloudkitect-053336355397.d.codeartifact.us-east-1.amazonaws.com/npm/cloudkitect-artifacts/');
 // project.npmrc.addConfig('//cloudkitect-053336355397.d.codeartifact.us-east-1.amazonaws.com/npm/main/:_authToken', '${CODEARTIFACT_AUTH_TOKEN}');
 // project.npmrc.addConfig('//cloudkitect-053336355397.d.codeartifact.us-east-1.amazonaws.com/npm/main/:always-auth', 'true');
 
@@ -80,8 +79,6 @@ const subProjectSettings = {
   majorVersion: 1,
   releasableCommits: ReleasableCommits.featuresAndFixes(),
   pnpmVersion: "9",
-  npmAccess: NpmAccess.RESTRICTED,
-  npmRegistryUrl: 'https://cloudkitect-053336355397.d.codeartifact.us-east-1.amazonaws.com/npm/cloudkitect-artifacts',
   ...licenseConfig
 }
 
@@ -91,6 +88,24 @@ const components = new AwsCdkConstructLibrary({
   name: `@cloudkitect/sample-construct`,
   outdir: `packages/sample-construct`,
 });
+
+// const awsSetup = {
+//   name: 'Configure aws credentials',
+//   uses: 'aws-actions/configure-aws-credentials@v1',
+//   with: {
+//     'aws-region': 'us-east-1' ,
+//     'role-to-assume': 'arn:aws:iam::053336355397:role/GithubRole-RepositoryPublisherRole-Ou627tXHJL0P',
+//     'role-session-name': 'RepoPublishPackage',
+//     'role-duration-seconds': 900
+//   }
+// }
+components.release?.publisher.publishToNpm({
+  registry: 'https://cloudkitect-053336355397.d.codeartifact.us-east-1.amazonaws.com/npm/cloudkitect-artifacts',
+  codeArtifactOptions: {
+    roleToAssume: 'arn:aws:iam::053336355397:role/GithubRole-RepositoryPublisherRole-Ou627tXHJL0P',
+    authProvider: CodeArtifactAuthProvider.GITHUB_OIDC
+  }
+})
 
 const licenseText = 'CloudKitect. Commercial License, All Rights Reserved'
 new TextFile(components, 'LICENSE', {
