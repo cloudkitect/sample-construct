@@ -96,7 +96,7 @@ const components = new AwsCdkConstructLibrary({
 // }
 //https://my_domain-111122223333.d.codeartifact.us-west-2.amazonaws.com/npm/my_repo/
 
-const registryEndPoint: string = 'https://cloudkitect-053336355397.d.codeartifact.us-east-1.amazonaws.com/npm/cloudkitect-artifacts/'
+const registryEndPoint: string = "https://cloudkitect-053336355397.d.codeartifact.us-east-1.amazonaws.com/npm/cloudkitect-artifacts/"
 
 project.npmrc.addRegistry(registryEndPoint);
 project.npmrc.addConfig('//cloudkitect-053336355397.d.codeartifact.us-east-1.amazonaws.com/npm/cloudkitect-artifacts/:_authToken', '${CODEARTIFACT_AUTH_TOKEN}');
