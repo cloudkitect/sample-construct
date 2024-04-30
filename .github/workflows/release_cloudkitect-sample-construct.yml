@@ -120,6 +120,6 @@ jobs:
       - name: Release
         env:
           NPM_DIST_TAG: latest
-          NPM_REGISTRY: https://cloudkitect-053336355397.d.codeartifact.us-east-1.amazonaws.com/npm/cloudkitect-artifacts
+          NPM_REGISTRY: https://cloudkitect-053336355397.d.codeartifact.us-east-1.amazonaws.com/npm/cloudkitect-artifacts/
         run: npx -p publib@latest publib-npm
       - run: cd .repo && pnpm i --no-frozen-lockfile

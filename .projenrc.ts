@@ -54,11 +54,6 @@ const project = new monorepo.MonorepoTsProject({
   ...licenseConfig
 });
 
-// project.npmrc.addRegistry('https://cloudkitect-053336355397.d.codeartifact.us-east-1.amazonaws.com/npm/cloudkitect-artifacts/');
-// project.npmrc.addConfig('//cloudkitect-053336355397.d.codeartifact.us-east-1.amazonaws.com/npm/main/:_authToken', '${CODEARTIFACT_AUTH_TOKEN}');
-// project.npmrc.addConfig('//cloudkitect-053336355397.d.codeartifact.us-east-1.amazonaws.com/npm/main/:always-auth', 'true');
-
-
 const subProjectSettings = {
   authorAddress: "support@example.com",
   parent: project,
@@ -99,8 +94,18 @@ const components = new AwsCdkConstructLibrary({
 //     'role-duration-seconds': 900
 //   }
 // }
+//https://my_domain-111122223333.d.codeartifact.us-west-2.amazonaws.com/npm/my_repo/
+
+const registryEndPoint: string = 'https://cloudkitect-053336355397.d.codeartifact.us-east-1.amazonaws.com/npm/cloudkitect-artifacts/'
+
+project.npmrc.addRegistry(registryEndPoint);
+project.npmrc.addConfig('//cloudkitect-053336355397.d.codeartifact.us-east-1.amazonaws.com/npm/cloudkitect-artifacts/:_authToken', '${CODEARTIFACT_AUTH_TOKEN}');
+project.npmrc.addConfig('//cloudkitect-053336355397.d.codeartifact.us-east-1.amazonaws.com/npm/cloudkitect-artifacts/:always-auth', 'true');
+
+
+
 components.release?.publisher.publishToNpm({
-  registry: 'https://cloudkitect-053336355397.d.codeartifact.us-east-1.amazonaws.com/npm/cloudkitect-artifacts',
+  registry: registryEndPoint,
   codeArtifactOptions: {
     roleToAssume: 'arn:aws:iam::053336355397:role/GithubRole-RepositoryPublisherRole-Ou627tXHJL0P',
     authProvider: CodeArtifactAuthProvider.GITHUB_OIDC
