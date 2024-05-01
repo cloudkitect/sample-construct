@@ -82,19 +82,8 @@ const components = new AwsCdkConstructLibrary({
   description: "Sample constructs",
   name: `@cloudkitect/sample-construct`,
   outdir: `packages/sample-construct`,
+  releaseToNpm: true,
 });
-
-// const awsSetup = {
-//   name: 'Configure aws credentials',
-//   uses: 'aws-actions/configure-aws-credentials@v1',
-//   with: {
-//     'aws-region': 'us-east-1' ,
-//     'role-to-assume': 'arn:aws:iam::053336355397:role/GithubRole-RepositoryPublisherRole-Ou627tXHJL0P',
-//     'role-session-name': 'RepoPublishPackage',
-//     'role-duration-seconds': 900
-//   }
-// }
-//https://my_domain-111122223333.d.codeartifact.us-west-2.amazonaws.com/npm/my_repo/
 
 // const registryEndPoint: string = "https://cloudkitect-053336355397.d.codeartifact.us-east-1.amazonaws.com/npm/cloudkitect-artifacts/"
 
@@ -111,7 +100,6 @@ components.release?.publisher.publishToNpm({
     authProvider: CodeArtifactAuthProvider.GITHUB_OIDC
   }
 })
-components.package
 
 const licenseText = 'CloudKitect. Commercial License, All Rights Reserved'
 new TextFile(components, 'LICENSE', {
