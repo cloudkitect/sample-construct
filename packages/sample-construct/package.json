@@ -62,6 +62,9 @@
   ],
   "main": "lib/index.js",
   "license": "UNLICENSED",
+  "publishConfig": {
+    "registry": "https://cloudkitect-053336355397.d.codeartifact.us-east-1.amazonaws.com/npm/cloudkitect-artifacts/"
+  },
   "version": "0.0.0",
   "jest": {
     "testMatch": [

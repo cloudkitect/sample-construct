@@ -112,6 +112,18 @@ jobs:
       - name: Restore build artifact permissions
         run: cd dist && setfacl --restore=permissions-backup.acl
         continue-on-error: true
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: "9"
+      - name: Prepare Repository
+        run: mv dist .repo
+      - name: Install Dependencies
+        run: cd .repo && pnpm i --no-frozen-lockfile
+      - name: Create js artifact
+        run: cd .repo && npx projen package:js
+      - name: Collect js Artifact
+        run: mv .repo/dist dist
       - name: Configure AWS Credentials via GitHub OIDC Provider
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -122,4 +134,3 @@ jobs:
           NPM_DIST_TAG: latest
           NPM_REGISTRY: cloudkitect-053336355397.d.codeartifact.us-east-1.amazonaws.com/npm/cloudkitect-artifacts/
         run: npx -p publib@latest publib-npm
-      - run: cd .repo && pnpm i --no-frozen-lockfile
