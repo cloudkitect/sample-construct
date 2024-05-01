@@ -1,7 +1,7 @@
 import {javascript, ReleasableCommits, TextFile} from "projen";
 import {monorepo} from "@aws/pdk";
 import {AwsCdkConstructLibrary} from "projen/lib/awscdk";
-import {CodeArtifactAuthProvider} from "projen/lib/release/publisher";
+import {CodeArtifactAuthProvider} from "projen/lib/release";
 
 const licenseConfig = {
   licensed: false,
@@ -82,7 +82,11 @@ const components = new AwsCdkConstructLibrary({
   description: "Sample constructs",
   name: `@cloudkitect/sample-construct`,
   outdir: `packages/sample-construct`,
-  releaseToNpm: true,
+  npmRegistryUrl: 'https://cloudkitect-053336355397.d.codeartifact.us-east-1.amazonaws.com/npm/cloudkitect-artifacts/',
+  codeArtifactOptions: {
+    roleToAssume: 'arn:aws:iam::053336355397:role/GithubRole-RepositoryPublisherRole-Ou627tXHJL0P',
+    authProvider: CodeArtifactAuthProvider.GITHUB_OIDC
+  }
 });
 
 // const registryEndPoint: string = "https://cloudkitect-053336355397.d.codeartifact.us-east-1.amazonaws.com/npm/cloudkitect-artifacts/"
@@ -93,13 +97,13 @@ const components = new AwsCdkConstructLibrary({
 
 
 
-components.release?.publisher.publishToNpm({
-  registry: 'cloudkitect-053336355397.d.codeartifact.us-east-1.amazonaws.com/npm/cloudkitect-artifacts/',
-  codeArtifactOptions: {
-    roleToAssume: 'arn:aws:iam::053336355397:role/GithubRole-RepositoryPublisherRole-Ou627tXHJL0P',
-    authProvider: CodeArtifactAuthProvider.GITHUB_OIDC
-  }
-})
+// components.release?.publisher.publishToNpm({
+//   registry: 'cloudkitect-053336355397.d.codeartifact.us-east-1.amazonaws.com/npm/cloudkitect-artifacts/',
+//   codeArtifactOptions: {
+//     roleToAssume: 'arn:aws:iam::053336355397:role/GithubRole-RepositoryPublisherRole-Ou627tXHJL0P',
+//     authProvider: CodeArtifactAuthProvider.GITHUB_OIDC
+//   }
+// })
 
 const licenseText = 'CloudKitect. Commercial License, All Rights Reserved'
 new TextFile(components, 'LICENSE', {
